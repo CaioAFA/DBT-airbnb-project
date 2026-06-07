@@ -1,0 +1,7 @@
+# DBT outputs
+target/
+dbt_packages/
+logs/
+
+# Credentials file
+profiles.yml
