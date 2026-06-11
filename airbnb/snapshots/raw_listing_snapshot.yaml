@@ -1,0 +1,19 @@
+snapshots:
+  - name: scd_raw_listings
+    relation: source('airbnb', 'listings')
+    config:
+  
+      # Check the column names on the database
+      unique_key: id
+      updated_at: updated_at
+
+      # Other available strategies:
+      # Check: check values from the row and change if needed
+      # Your own check: useful for advanced use cases
+      strategy: timestamp
+
+      # Strategies when the data is deleted on source table:
+      # Ignore (default)
+      # Invalidate: updated the "valid_to" column
+      # New Record: create a column "dbt_is_deleted" and update when a record is deleted (most complete audit)
+      hard_deletes: invalidate
