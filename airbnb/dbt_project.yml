@@ -24,6 +24,13 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 
+on-run-start:
+  - "CREATE TABLE IF NOT EXISTS {{ target.schema }}.audit_log (
+      model_name STRING,
+      run_timestamp TIMESTAMP
+    )"
+
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -40,6 +47,13 @@ models:
 
     src:
       +materialized: ephemeral
+
+    +post-hook:
+      - "INSERT INTO {{ target.schema }}.audit_log VALUES ('{{ this }}', CURRENT_TIMESTAMP)"
+
+    +grants:
+      select: ["transform", "reporter"]
+
 
 data_tests:
   +store_failures: true
