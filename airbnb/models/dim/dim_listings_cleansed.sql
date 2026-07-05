@@ -1,6 +1,7 @@
 {{
   config(
     materialized = 'view',
+    event_time='created_at'
   )
 }}
 
