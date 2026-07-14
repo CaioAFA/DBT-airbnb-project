@@ -1,8 +1,18 @@
 -- Mart folder: acessed by BI tools
 {{
   config(
-    materialized = 'table',
-    tags = ['fact']
+    materialized = 'incremental',
+    incremental_strategy='microbatch',
+    tags = ['fact'],
+
+    -- Microbatch parameters
+    event_time='review_date',
+    begin='2009-06-20',
+    batch_size='year',
+
+    -- Not perform a full refresh if an upstream table
+    -- is modified
+    full_refresh=false
   )
 }}
 
